@@ -94,4 +94,6 @@ plans/
 # AIKit - AI Development Kits
 .cursor/
 .shared/
-.opencode/
+.claude/
+CLAUDE.md
+.mcp.json
