@@ -462,3 +462,4 @@ To fix linting errors automatically, use:
 ```bash
 yarn lint:fix # Fix automatic issues
 ```
+# react-native
