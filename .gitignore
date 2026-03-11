@@ -94,6 +94,5 @@ plans/
 # AIKit - AI Development Kits
 .cursor/
 .shared/
-.claude/
-CLAUDE.md
-.mcp.json
+.agent/
+GEMINI.md

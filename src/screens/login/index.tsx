@@ -45,7 +45,7 @@ const Login = () => {
     const handleLogin = React.useCallback(() => {
         Keyboard.dismiss();
         handleSubmit((_values) => {
-            RootNavigator.replaceName(RouteName.Main);
+            RootNavigator.replaceName(RouteName.DrawerRoot);
         })();
     }, [handleSubmit]);
 

@@ -3,4 +3,5 @@ export { default as useLoading } from './useLoading';
 export { default as useRefresh } from './useRefresh';
 export { default as useRouteParams } from './useRouteParams';
 export { default as useShowToast } from './useShowToast';
+export { default as useTheme } from './useTheme';
 export * from './useThemeColor';

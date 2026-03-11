@@ -11,7 +11,9 @@ import React from 'react';
 
 import { RootNavigator } from '@/services';
 
-import { screenOptions } from '@/helper';
+import { RouteName } from '@/constants';
+
+import useTheme from '@/hooks/useTheme';
 
 import '../global.css';
 
@@ -22,8 +24,9 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { KeyboardViewSpacer } from './components/keyboardSpace';
 import { GluestackUIProvider } from './components/ui';
-import { RouteName } from './constants';
-import { LoginPage, MainPage } from './screens';
+import DrawerNavigator from './navigation/DrawerNavigator';
+import { LoginPage } from './screens';
+import { ThemeProvider } from './theme/ThemeContext';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -31,12 +34,24 @@ const AppStack = () => {
     return (
         <KeyboardViewSpacer>
             <NavigationContainer ref={RootNavigator.navigationRef}>
-                <Stack.Navigator screenOptions={screenOptions} initialRouteName={RouteName.Login}>
+                <Stack.Navigator
+                    screenOptions={{ headerShown: false }}
+                    initialRouteName={RouteName.Login}>
                     <Stack.Screen name={RouteName.Login} component={LoginPage} />
-                    <Stack.Screen name={RouteName.Main} component={MainPage} />
+                    <Stack.Screen name={RouteName.DrawerRoot} component={DrawerNavigator} />
                 </Stack.Navigator>
             </NavigationContainer>
         </KeyboardViewSpacer>
+    );
+};
+
+const AppWithTheme = () => {
+    const { colorMode } = useTheme();
+
+    return (
+        <GluestackUIProvider mode={colorMode}>
+            <AppStack />
+        </GluestackUIProvider>
     );
 };
 
@@ -44,9 +59,9 @@ const App = () => {
     return (
         <GestureHandlerRootView style={{ flex: 1 }}>
             <SafeAreaProvider>
-                <GluestackUIProvider>
-                    <AppStack />
-                </GluestackUIProvider>
+                <ThemeProvider>
+                    <AppWithTheme />
+                </ThemeProvider>
             </SafeAreaProvider>
         </GestureHandlerRootView>
     );

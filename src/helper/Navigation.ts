@@ -4,7 +4,7 @@ import { Easing, Platform } from 'react-native';
 export const defaultOptions: StackNavigationOptions = {
     headerShown: false,
     cardStyle: {
-        backgroundColor: 'white',
+        backgroundColor: 'transparent',
     },
 };
 
