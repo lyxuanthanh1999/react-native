@@ -1,6 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { Keyboard } from 'react-native';
 import { z } from 'zod';
 
@@ -13,14 +14,24 @@ import { getColor } from '@/hooks';
 import { ControlledInput } from '@/components/input';
 import { MyTouchable } from '@/components/touchable';
 import { Box, ScrollView, Text, VStack } from '@/components/ui';
+import useTheme from '@/hooks/useTheme';
 
-const RNLogo = () => (
-    <Box width={80} height={80} backgroundColor="black" borderRadius={16} alignItems="center" justifyContent="center">
-        <Text color="white" fontWeight="bold" fontSize={24}>
-            RN
-        </Text>
-    </Box>
-);
+const RNLogo = () => {
+    const { isDark } = useTheme();
+    return (
+        <Box
+            width={80}
+            height={80}
+            className={`${isDark ? 'bg-primary-500' : 'bg-primary-900'}`}
+            borderRadius={16}
+            alignItems="center"
+            justifyContent="center">
+            <Text color="white" fontWeight="bold" fontSize={24}>
+                RN
+            </Text>
+        </Box>
+    );
+};
 
 const loginSchema = z.object({
     email: z
@@ -34,6 +45,8 @@ const loginSchema = z.object({
 });
 
 const Login = () => {
+    const { isDark } = useTheme();
+    const { t } = useTranslation();
     const { control, handleSubmit } = useForm({
         defaultValues: {
             email: 'test@test.com',
@@ -50,16 +63,16 @@ const Login = () => {
     }, [handleSubmit]);
 
     return (
-        <Box flex={1} safeArea>
-            <ScrollView>
-                <Box flex={1} backgroundColor="white" paddingHorizontal={16}>
+        <Box flex={1} safeArea className="bg-background-0">
+            <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+                <Box flex={1} className="bg-background-0" paddingHorizontal={16}>
                     <VStack alignItems="center" justifyContent="center" marginTop={20} marginBottom={12} space="sm">
                         <RNLogo />
-                        <Text size="2xl" fontWeight="bold" marginTop={6}>
-                            Welcome Back {environment.appFlavor}
+                        <Text className="text-typography-900" size="2xl" fontWeight="bold" marginTop={6}>
+                            {t('login.welcomeBack')} {environment.appFlavor}
                         </Text>
-                        <Text fontSize={14} marginTop={2} color="gray">
-                            Please sign in to your account
+                        <Text className="text-typography-500" fontSize={14} marginTop={2}>
+                            {t('login.subtitle')}
                         </Text>
                     </VStack>
 
@@ -67,7 +80,7 @@ const Login = () => {
                         <ControlledInput
                             control={control}
                             name="email"
-                            placeholder="Email"
+                            placeholder={t('login.emailPlaceholder')}
                             shouldUseFieldError={true}
                             testID="email-input"
                         />
@@ -75,22 +88,22 @@ const Login = () => {
                         <ControlledInput
                             control={control}
                             name="password"
-                            placeholder="Password"
+                            placeholder={t('login.passwordPlaceholder')}
                             isPassword
                             shouldUseFieldError={true}
                             testID="password-input"
                         />
 
-                        <Text fontSize={14} color={getColor('primary.600')} fontWeight="medium" textAlign="right">
-                            Forgot Password?
+                        <Text fontSize={14} color={getColor('primary.500')} fontWeight="medium" textAlign="right">
+                            {t('login.forgotPassword')}
                         </Text>
 
                         <MyTouchable
                             onPress={handleLogin}
                             className="mt-4 items-center rounded-xl bg-primary-600 py-4 shadow-sm"
                             testID="login-button">
-                            <Text fontWeight="bold" size="lg" color="white">
-                                Sign In
+                            <Text fontWeight="bold" size="lg" color={isDark ? 'typography-100' : 'white'}>
+                                {t('login.signIn')}
                             </Text>
                         </MyTouchable>
                     </VStack>

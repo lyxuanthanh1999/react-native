@@ -1,0 +1,70 @@
+{
+    "settings": {
+        "title": "Settings",
+        "appearance": "Appearance",
+        "darkMode": "Dark Mode",
+        "themeMode": "Theme Mode",
+        "light": "Light",
+        "dark": "Dark",
+        "system": "System",
+        "languageTitle": "Language",
+        "language": {
+            "en": "English",
+            "vi": "Vietnamese"
+        }
+    },
+    "profile": {
+        "title": "Profile",
+        "subTitle": "Manage your account and preferences"
+    },
+    "explore": {
+        "title": "Explore",
+        "subTitle": "Discover new content and features here.",
+        "openCalendar": "Open Calendar",
+        "calendarTitle": "Calendar View",
+        "calendarSubtitle": "Manage your upcoming events",
+        "event": "Event",
+        "noEvent": "No events",
+        "permissionTitle": "Calendar Access",
+        "permissionMessage": "Allow access to your calendar to view events",
+        "permissionDenied": "Calendar access denied. Please enable it in Settings.",
+        "openSettings": "Open Settings",
+        "addEvent": "Add Event",
+        "allDay": "All day",
+        "eventTitle": "New Event",
+        "eventCreated": "Event added to calendar",
+        "loading": "Loading events...",
+        "createEvent": "Create Event",
+        "eventTitlePlaceholder": "Enter event title",
+        "startTime": "Start Time",
+        "endTime": "End Time",
+        "locationPlaceholder": "Location (optional)",
+        "notesPlaceholder": "Notes (optional)",
+        "cancel": "Cancel",
+        "save": "Save",
+        "errorTitleRequired": "Title is required",
+        "errorTimeInvalid": "End time must be after start time"
+    },
+    "login": {
+        "welcomeBack": "Welcome Back",
+        "subtitle": "Please sign in to your account",
+        "emailPlaceholder": "Email",
+        "passwordPlaceholder": "Password",
+        "forgotPassword": "Forgot Password?",
+        "signIn": "Sign In"
+    },
+    "tabs": {
+        "home": "Home",
+        "explore": "Explore",
+        "profile": "Profile",
+        "settings": "Settings"
+    },
+    "drawer": {
+        "home": "Home",
+        "about": "About",
+        "logout": "Logout",
+        "darkMode": "Dark Mode",
+        "appTitle": "New React Native",
+        "appSubtitle": "Boilerplate Project"
+    }
+}

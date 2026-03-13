@@ -60,7 +60,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
         slug: name.toLowerCase(),
         version: validatedConfig.VERSION_NAME,
         userInterfaceStyle: 'automatic',
-        plugins: [...(config.plugins ?? [])],
+        plugins: [...(config.plugins ?? []), '@react-native-community/datetimepicker'],
         extra: {
             ...validatedConfig,
         },

@@ -89,6 +89,169 @@
 - ESLint + Prettier for code quality
 - Gluestack UI components
 - Environment-specific configurations
+- 🌙 Dark Mode with persistence (Light / Dark / System)
+- 🌐 Internationalization (English / Vietnamese)
+- 📅 Native Calendar integration (iOS & Android)
+
+---
+
+## 🌙 Dark Mode
+
+### Libraries
+
+| Library                                     | Version  | Purpose                                       |
+| ------------------------------------------- | -------- | --------------------------------------------- |
+| `nativewind`                                | `^4.2.2` | Bridge Tailwind CSS → React Native StyleSheet |
+| `@gluestack-ui/nativewind-utils`            | `1.0.28` | Tailwind plugin for Gluestack + CSS variables |
+| `@react-native-async-storage/async-storage` | `2.2.0`  | Persist theme preference to device storage    |
+
+### Architecture
+
+```
+ThemeProvider (ThemeContext.tsx)
+  │
+  ├── colorMode: 'light' | 'dark' | 'system'  ← persisted in AsyncStorage
+  ├── isDark: boolean                           ← derived from colorMode + systemScheme
+  │
+  └── GluestackUIProvider (mode={colorMode})
+        │
+        ├── colorSchemeNW.set('light' | 'dark') ← updates NativeWind CSS variables
+        └── config[colorSchemeName]             ← applies color tokens (--color-primary-500, ...)
+```
+
+### Usage
+
+```tsx
+import useTheme from '@/hooks/useTheme';
+
+const MyComponent = () => {
+    const { isDark, colorMode, setColorMode } = useTheme();
+
+    return (
+        // NativeWind classes auto-switch colors based on theme
+        <Box className="bg-background-0">
+            <Text className="text-typography-900">Hello</Text>
+
+            {/* Toggle dark mode */}
+            <Switch value={isDark} onValueChange={(v) => setColorMode(v ? 'dark' : 'light')} />
+        </Box>
+    );
+};
+```
+
+**3 modes:** `light` · `dark` · `system` (follows device setting)
+
+### Related Files
+
+| File                                       | Description                                                  |
+| ------------------------------------------ | ------------------------------------------------------------ |
+| `src/theme/ThemeContext.tsx`               | Provider + Context (colorMode, isDark, setColorMode)         |
+| `src/hooks/useTheme.ts`                    | Convenience hook to access ThemeContext                      |
+| `src/components/ui/gluestack-ui-provider/` | GluestackUIProvider — applies CSS variables                  |
+| `tailwind.config.js`                       | Color token definitions (primary, background, typography...) |
+| `src/screens/settings/index.tsx`           | Theme selector UI (Light/Dark/System)                        |
+
+---
+
+## 🌐 Internationalization (i18n)
+
+### Libraries
+
+| Library                                     | Version    | Purpose                             |
+| ------------------------------------------- | ---------- | ----------------------------------- |
+| `i18next`                                   | `^25.8.17` | Core internationalization framework |
+| `react-i18next`                             | `^16.5.6`  | React bindings for i18next          |
+| `@react-native-async-storage/async-storage` | `2.2.0`    | Persist selected language           |
+
+### Supported Languages
+
+- 🇬🇧 **English** (`en`) — default
+- 🇻🇳 **Vietnamese** (`vi`)
+
+### Usage
+
+```tsx
+import { useTranslation } from 'react-i18next';
+
+const MyComponent = () => {
+    const { t, i18n } = useTranslation();
+
+    return (
+        <Text>{t('settings.title')}</Text>          // → "Settings" or "Cài đặt"
+        <Button onPress={() => i18n.changeLanguage('vi')} /> // Switch language
+    );
+};
+```
+
+### Adding New Keys
+
+Add to both locale files simultaneously:
+
+```
+src/locales/en.json   →  { "myFeature": { "title": "Hello" } }
+src/locales/vi.json   →  { "myFeature": { "title": "Xin chào" } }
+```
+
+### Related Files
+
+| File                             | Description                               |
+| -------------------------------- | ----------------------------------------- |
+| `src/i18n/index.ts`              | i18next configuration + language detector |
+| `src/locales/en.json`            | English translations                      |
+| `src/locales/vi.json`            | Vietnamese translations                   |
+| `src/screens/settings/index.tsx` | Language selector UI                      |
+
+---
+
+## 📅 Calendar Integration
+
+### Libraries
+
+| Library                                                                                                   | Version     | Purpose                                                                         |
+| --------------------------------------------------------------------------------------------------------- | ----------- | ------------------------------------------------------------------------------- |
+| [`expo-calendar`](https://docs.expo.dev/versions/latest/sdk/calendar/)                                    | `~55.0.9`   | Read/write events to native Calendar (iOS EventKit / Android Calendar Provider) |
+| [`react-native-calendars`](https://github.com/wix/react-native-calendars)                                 | `^1.1314.0` | Calendar UI component (monthly view, event dots, day selection)                 |
+| [`@react-native-community/datetimepicker`](https://github.com/react-native-datetimepicker/datetimepicker) | `8.6.0`     | Native time picker for event creation                                           |
+
+### Permissions
+
+**iOS** — add to `Info.plist`:
+
+```xml
+<key>NSCalendarsFullAccessUsageDescription</key>
+<string>Allow calendar access to display and create events.</string>
+<key>NSCalendarsUsageDescription</key>
+<string>Allow calendar access to display and create events.</string>
+```
+
+**Android** — add to `AndroidManifest.xml`:
+
+```xml
+<uses-permission android:name="android.permission.READ_CALENDAR" />
+<uses-permission android:name="android.permission.WRITE_CALENDAR" />
+```
+
+### Features
+
+| Feature                  | Description                                                          |
+| ------------------------ | -------------------------------------------------------------------- |
+| **View Events**          | Display native calendar events by day with blue dots on the calendar |
+| **Create Events**        | Modal with Title, Start/End Time, Location, Notes inputs             |
+| **Open Native Calendar** | Tap an event → opens iOS Calendar.app / Android Calendar             |
+| **Dark Mode**            | Calendar UI + Event Cards + Modal adapt to theme                     |
+| **i18n**                 | All text translated to English/Vietnamese                            |
+
+### Architecture
+
+The Calendar functionality has been extracted into a dedicated `CalendarScreen` (navigated from `ExploreScreen`). This separation of concerns creates a cleaner UI and simpler component structure.
+
+### Custom Hook
+
+```tsx
+const { events, hasPermission, isLoading, loadEventsForMonth, createEvent } = useExpoCalendar(selectedDate);
+```
+
+> 📖 **Detailed documentation:** see [`docs/calendar.md`](docs/calendar.md)
 
 ## Quick Start
 
@@ -462,4 +625,5 @@ To fix linting errors automatically, use:
 ```bash
 yarn lint:fix # Fix automatic issues
 ```
+
 # react-native

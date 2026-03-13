@@ -10,7 +10,8 @@ type ModeType = 'light' | 'dark' | 'system';
 
 const getColorSchemeName = (colorScheme: ColorSchemeName, mode: ModeType): 'light' | 'dark' => {
     if (mode === 'system') {
-        return colorScheme ?? 'light';
+        const scheme = colorScheme === 'unspecified' ? 'light' : colorScheme;
+        return scheme ?? 'light';
     }
     return mode;
 };
@@ -27,7 +28,7 @@ export function GluestackUIProvider({
 
     const colorSchemeName = getColorSchemeName(colorScheme, mode);
 
-    colorSchemeNW.set(mode);
+    colorSchemeNW.set(colorSchemeName);
 
     return (
         <View style={[config[colorSchemeName], { flex: 1, height: '100%', width: '100%' }, props.style]}>

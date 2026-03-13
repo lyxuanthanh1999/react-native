@@ -8,25 +8,23 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
-
-import { RootNavigator } from '@/services';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { RouteName } from '@/constants';
 
-import useTheme from '@/hooks/useTheme';
+import { RootNavigator } from '@/services';
 
 import '../global.css';
-
-// eslint-disable-next-line import/order
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
-// eslint-disable-next-line import/order
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import './i18n';
 
 import { KeyboardViewSpacer } from './components/keyboardSpace';
 import { GluestackUIProvider } from './components/ui';
 import DrawerNavigator from './navigation/DrawerNavigator';
-import { LoginPage } from './screens';
+import { LoginPage, CalendarScreen } from './screens';
 import { ThemeProvider } from './theme/ThemeContext';
+
+import useTheme from '@/hooks/useTheme';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -34,11 +32,10 @@ const AppStack = () => {
     return (
         <KeyboardViewSpacer>
             <NavigationContainer ref={RootNavigator.navigationRef}>
-                <Stack.Navigator
-                    screenOptions={{ headerShown: false }}
-                    initialRouteName={RouteName.Login}>
+                <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName={RouteName.Login}>
                     <Stack.Screen name={RouteName.Login} component={LoginPage} />
                     <Stack.Screen name={RouteName.DrawerRoot} component={DrawerNavigator} />
+                    <Stack.Screen name={RouteName.Calendar} component={CalendarScreen} />
                 </Stack.Navigator>
             </NavigationContainer>
         </KeyboardViewSpacer>

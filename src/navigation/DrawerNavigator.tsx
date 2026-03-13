@@ -1,67 +1,95 @@
+/* eslint-disable react/no-unstable-nested-components */
+import { Ionicons } from '@react-native-vector-icons/ionicons';
 import {
     createDrawerNavigator,
     DrawerContentComponentProps,
     DrawerContentScrollView,
     DrawerItemList,
+    DrawerItem,
 } from '@react-navigation/drawer';
-import { Ionicons } from '@react-native-vector-icons/ionicons';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Switch } from 'react-native';
 
 import { Colors, RouteName } from '@/constants';
 
-import useTheme from '@/hooks/useTheme';
+import { RootNavigator } from '@/services';
 
-import { Box, HStack, Text } from '@/components/ui';
 import { AboutScreen } from '@/screens';
 
 import BottomTabNavigator from './BottomTabNavigator';
+
+import { Box, HStack, Text } from '@/components/ui';
+import useTheme from '@/hooks/useTheme';
 
 const Drawer = createDrawerNavigator();
 
 const CustomDrawerContent = (props: DrawerContentComponentProps) => {
     const { isDark, setColorMode } = useTheme();
     const colors = isDark ? Colors.dark : Colors.light;
+    const { t, i18n } = useTranslation();
 
     return (
         <DrawerContentScrollView {...props} style={{ backgroundColor: colors.card }}>
             {/* App header */}
-            <Box className="px-4 pt-4 pb-6 mb-2 border-b" style={{ borderBottomColor: colors.border }}>
-                <Box
-                    width={48}
-                    height={48}
-                    className="rounded-xl bg-primary-600 items-center justify-center mb-3">
+            <Box className="mb-2 border-b px-4 pb-6 pt-4" style={{ borderBottomColor: colors.border }}>
+                <Box width={48} height={48} className="mb-3 items-center justify-center rounded-xl bg-primary-600">
                     <Text color="white" fontWeight="bold" size="lg">
                         RN
                     </Text>
                 </Box>
                 <Text className="text-typography-900" size="lg" fontWeight="bold">
-                    New React Native
+                    {t('drawer.appTitle')}
                 </Text>
                 <Text className="text-typography-500" size="sm">
-                    Boilerplate Project
+                    {t('drawer.appSubtitle')}
                 </Text>
             </Box>
 
             <DrawerItemList {...props} />
 
+            <DrawerItem
+                label={t('drawer.logout')}
+                icon={({ color, size }) => <Ionicons name="log-out-outline" size={size} color={color} />}
+                onPress={() => {
+                    RootNavigator.replaceName(RouteName.Login);
+                }}
+                activeTintColor={colors.primary}
+                inactiveTintColor={colors.tabBarInactive}
+                labelStyle={{ fontSize: 15, fontWeight: '500' }}
+            />
+
             {/* Dark mode toggle at bottom */}
-            <Box className="px-4 pt-4 mt-4 border-t" style={{ borderTopColor: colors.border }}>
-                <HStack className="justify-between items-center">
+            <Box className="mt-4 border-t px-4 pt-4" style={{ borderTopColor: colors.border }}>
+                <HStack className="items-center justify-between">
                     <HStack space="sm" className="items-center">
-                        <Ionicons
-                            name={isDark ? 'moon' : 'sunny'}
-                            size={20}
-                            color={colors.text}
-                        />
+                        <Ionicons name={isDark ? 'moon' : 'sunny'} size={20} color={colors.text} />
                         <Text className="text-typography-700" size="md">
-                            Dark Mode
+                            {t('drawer.darkMode')}
                         </Text>
                     </HStack>
                     <Switch
                         value={isDark}
                         onValueChange={(v) => setColorMode(v ? 'dark' : 'light')}
                         trackColor={{ false: '#D4D4D4', true: '#333333' }}
+                        thumbColor={isDark ? '#FFFFFF' : '#F5F5F5'}
+                    />
+                </HStack>
+            </Box>
+            <Box className="mt-4 border-t px-4 pt-4" style={{ borderTopColor: colors.border }}>
+                <HStack className="items-center justify-between">
+                    <HStack space="sm" className="items-center">
+                        <Ionicons name="language-outline" size={20} color={colors.text} />
+                        <Text className="text-typography-700" size="md">
+                            {t('settings.languageTitle')} ({i18n.language.toUpperCase()})
+                        </Text>
+                    </HStack>
+                    <Switch
+                        value={i18n.language === 'en'}
+                        onValueChange={(v) => {
+                            i18n.changeLanguage(v ? 'en' : 'vi');
+                        }}
+                        trackColor={{ false: '#616161ff', true: colors.primary }}
                         thumbColor={isDark ? '#FFFFFF' : '#F5F5F5'}
                     />
                 </HStack>
@@ -73,6 +101,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
 const DrawerNavigator = () => {
     const { isDark } = useTheme();
     const colors = isDark ? Colors.dark : Colors.light;
+    const { t } = useTranslation();
 
     return (
         <Drawer.Navigator
@@ -94,18 +123,16 @@ const DrawerNavigator = () => {
                 name={RouteName.MainTabs}
                 component={BottomTabNavigator}
                 options={{
-                    title: 'Home',
-                    drawerIcon: ({ color, size }) => (
-                        <Ionicons name="home-outline" size={size} color={color} />
-                    ),
+                    title: t('drawer.home'),
+                    drawerIcon: ({ color, size }) => <Ionicons name="home-outline" size={size} color={color} />,
                 }}
             />
             <Drawer.Screen
                 name={RouteName.About}
                 component={AboutScreen}
                 options={{
-                    title: 'About',
-                    headerShown: true,
+                    title: t('drawer.about'),
+                    headerShown: false,
                     headerStyle: { backgroundColor: colors.card },
                     headerTintColor: colors.text,
                     drawerIcon: ({ color, size }) => (
@@ -118,3 +145,4 @@ const DrawerNavigator = () => {
 };
 
 export default DrawerNavigator;
+/* eslint-enable react/no-unstable-nested-components */

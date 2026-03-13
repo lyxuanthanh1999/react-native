@@ -1,12 +1,14 @@
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+/* eslint-disable react/no-unstable-nested-components */
 import { Ionicons } from '@react-native-vector-icons/ionicons';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { Colors, RouteName } from '@/constants';
 
-import useTheme from '@/hooks/useTheme';
-
 import { ExploreScreen, HomePage, ProfileScreen, SettingsScreen } from '@/screens';
+
+import useTheme from '@/hooks/useTheme';
 
 const Tab = createBottomTabNavigator();
 
@@ -20,6 +22,7 @@ const TAB_ICONS: Record<string, { focused: string; default: string }> = {
 const BottomTabNavigator = () => {
     const { isDark } = useTheme();
     const colors = isDark ? Colors.dark : Colors.light;
+    const { t } = useTranslation();
 
     return (
         <Tab.Navigator
@@ -33,14 +36,11 @@ const BottomTabNavigator = () => {
                 tabBarActiveTintColor: colors.tabBarActive,
                 tabBarInactiveTintColor: colors.tabBarInactive,
                 tabBarStyle: {
-                    backgroundColor: colors.card,
-                    borderTopColor: colors.border,
-                    borderTopWidth: 0.5,
-                    elevation: 8,
-                    shadowColor: '#000',
-                    shadowOffset: { width: 0, height: -2 },
-                    shadowOpacity: isDark ? 0.3 : 0.08,
-                    shadowRadius: 8,
+                    position: 'absolute',
+                    backgroundColor: isDark ? 'rgba(23, 23, 23, 0.90)' : 'rgba(255, 255, 255, 0.90)',
+                    borderTopWidth: 0,
+                    elevation: 0,
+                    shadowOpacity: 0,
                     height: 85,
                     paddingBottom: 28,
                     paddingTop: 8,
@@ -50,12 +50,13 @@ const BottomTabNavigator = () => {
                     fontWeight: '600',
                 },
             })}>
-            <Tab.Screen name={RouteName.Home} component={HomePage} />
-            <Tab.Screen name={RouteName.Explore} component={ExploreScreen} />
-            <Tab.Screen name={RouteName.Profile} component={ProfileScreen} />
-            <Tab.Screen name={RouteName.Settings} component={SettingsScreen} />
+            <Tab.Screen name={RouteName.Home} component={HomePage} options={{ title: t('tabs.home') }} />
+            <Tab.Screen name={RouteName.Explore} component={ExploreScreen} options={{ title: t('tabs.explore') }} />
+            <Tab.Screen name={RouteName.Profile} component={ProfileScreen} options={{ title: t('tabs.profile') }} />
+            <Tab.Screen name={RouteName.Settings} component={SettingsScreen} options={{ title: t('tabs.settings') }} />
         </Tab.Navigator>
     );
 };
 
 export default BottomTabNavigator;
+/* eslint-enable react/no-unstable-nested-components */

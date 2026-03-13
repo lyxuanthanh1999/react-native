@@ -5,3 +5,4 @@ export { default as ExploreScreen } from './explore';
 export { default as ProfileScreen } from './profile';
 export { default as SettingsScreen } from './settings';
 export { default as AboutScreen } from './about';
+export { default as CalendarScreen } from './calendar';

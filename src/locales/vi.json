@@ -1,0 +1,70 @@
+{
+    "settings": {
+        "title": "Cài đặt",
+        "appearance": "Giao diện",
+        "darkMode": "Chế độ tối",
+        "themeMode": "Chủ đề",
+        "light": "Sáng",
+        "dark": "Tối",
+        "system": "Hệ thống",
+        "languageTitle": "Ngôn ngữ",
+        "language": {
+            "en": "Tiếng Anh",
+            "vi": "Tiếng Việt"
+        }
+    },
+    "profile": {
+        "title": "Thông tin cá nhân",
+        "subTitle": "Quản lý tài khoản và tùy chọn của bạn"
+    },
+    "explore": {
+        "title": "Khám phá",
+        "subTitle": "Khám phá nội dung và tính năng mới tại đây.",
+        "openCalendar": "Mở Lịch",
+        "calendarTitle": "Lịch Sự kiện",
+        "calendarSubtitle": "Quản lý các sự kiện sắp tới",
+        "event": "Sự kiện",
+        "noEvent": "Không có sự kiện",
+        "permissionTitle": "Truy cập Lịch",
+        "permissionMessage": "Cho phép truy cập để xem sự kiện trong lịch",
+        "permissionDenied": "Quyền truy cập lịch bị từ chối. Vui lòng bật trong Cài đặt.",
+        "openSettings": "Mở Cài đặt",
+        "addEvent": "Thêm sự kiện",
+        "allDay": "Cả ngày",
+        "eventTitle": "Sự kiện mới",
+        "eventCreated": "Đã thêm sự kiện vào lịch",
+        "loading": "Đang tải sự kiện...",
+        "createEvent": "Tạo sự kiện",
+        "eventTitlePlaceholder": "Nhập tên sự kiện",
+        "startTime": "Bắt đầu",
+        "endTime": "Kết thúc",
+        "locationPlaceholder": "Địa điểm (không bắt buộc)",
+        "notesPlaceholder": "Ghi chú (không bắt buộc)",
+        "cancel": "Hủy",
+        "save": "Lưu",
+        "errorTitleRequired": "Vui lòng nhập tên sự kiện",
+        "errorTimeInvalid": "Thời gian kết thúc phải sau thời gian bắt đầu"
+    },
+    "login": {
+        "welcomeBack": "Chào mừng trở lại",
+        "subtitle": "Vui lòng đăng nhập vào tài khoản của bạn",
+        "emailPlaceholder": "Email",
+        "passwordPlaceholder": "Mật khẩu",
+        "forgotPassword": "Quên mật khẩu?",
+        "signIn": "Đăng nhập"
+    },
+    "tabs": {
+        "home": "Trang chủ",
+        "explore": "Khám phá",
+        "profile": "Hồ sơ",
+        "settings": "Cài đặt"
+    },
+    "drawer": {
+        "home": "Trang chủ",
+        "about": "Giới thiệu",
+        "logout": "Đăng xuất",
+        "darkMode": "Chế độ tối",
+        "appTitle": "New React Native",
+        "appSubtitle": "Dự án mẫu"
+    }
+}
